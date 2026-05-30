@@ -13,6 +13,17 @@
   --highlight-bright: 255 196 130; /* lighter amber */
   --fiat: 226 232 240;          /* #E2E8F0 slate-200 high-contrast */
   --fiat-dim: 148 163 184;      /* slate-400, dimmer secondary */
+  /* Gunmetal scale — themable via vars so [data-theme="light"] can flip
+     the entire surface tree without touching component classes. */
+  --gunmetal-900: 11 12 14;
+  --gunmetal-800: 18 19 21;
+  --gunmetal-700: 22 24 27;
+  --gunmetal-600: 26 28 32;
+  --gunmetal-500: 34 37 43;
+  --gunmetal-400: 45 49 57;
+  --gunmetal-300: 58 63 73;
+  --bone: 230 231 234;          /* #E6E7EA primary text */
+  --cta-on-accent: 255 255 255; /* text on primary CTA buttons */
 }
 
 [data-theme="cyan"] {
@@ -22,8 +33,55 @@
   --accent-bright: 99 102 241;   /* #6366F1 brighter indigo */
   --highlight: 6 182 212;        /* #06B6D4 volt cyan */
   --highlight-bright: 34 211 238; /* #22D3EE cyan glow */
-  --fiat: 226 232 240;           /* #E2E8F0 — still bright (was muted before, FIX) */
+  --fiat: 226 232 240;
   --fiat-dim: 148 163 184;
+  --gunmetal-900: 11 12 14;
+  --gunmetal-800: 18 19 21;
+  --gunmetal-700: 22 24 27;
+  --gunmetal-600: 26 28 32;
+  --gunmetal-500: 34 37 43;
+  --gunmetal-400: 45 49 57;
+  --gunmetal-300: 58 63 73;
+  --bone: 230 231 234;
+  --cta-on-accent: 255 255 255;
+}
+
+/**
+ * === Theme C: "Industrial Light" — raw machined aluminum, tactical light
+ * forge with deep burned-amber accents. Inverted surface tree (light gunmetal
+ * scale) with hand-picked text/border tokens for max contrast against a
+ * pale aluminum base. Maintains the brutalist visual rhythm.
+ *
+ * Token mapping vs the spec sheet:
+ *   --bg-main      → gunmetal-800 (#EAECEF)
+ *   --bg-card      → gunmetal-600 (#F4F6F8)
+ *   --border-subtle→ gunmetal-400 (#C4C8CE)
+ *   --text-primary → bone         (#111827)
+ *   --text-muted   → fiat-dim     (#4B5563)
+ *   --accent-amber → accent       (#B45309 deep burned amber)
+ *   --accent-cyan  → highlight    (#0891B2 anodized cyan)
+ */
+[data-theme="light"] {
+  color-scheme: light;
+  --grain-opacity: 0.025;
+  --accent: 180 83 9;             /* #B45309 deep burned amber (CTA bg) */
+  --accent-bright: 217 119 6;     /* #D97706 highlight on amber */
+  --highlight: 8 145 178;         /* #0891B2 anodized deep cyan */
+  --highlight-bright: 14 165 233; /* #0EA5E9 cyan accent */
+  --fiat: 17 24 39;               /* #111827 brutalist charcoal — primary text */
+  --fiat-dim: 75 85 99;           /* #4B5563 industrial slate gray — muted */
+  /* Inverted gunmetal scale → pale aluminum + structured tiles.
+     Each step lighter than the next, matching the original brightness
+     curve of the dark scale (so contrasts stay similar). */
+  --gunmetal-900: 209 213 219;    /* #D1D5DB grid lines */
+  --gunmetal-800: 234 236 239;    /* #EAECEF main bg — machined aluminum */
+  --gunmetal-700: 244 246 248;    /* #F4F6F8 inputs */
+  --gunmetal-600: 244 246 248;    /* #F4F6F8 cards/rows */
+  --gunmetal-500: 220 224 230;    /* slightly darker surface variant */
+  --gunmetal-400: 196 200 206;    /* #C4C8CE crisp borders */
+  --gunmetal-300: 156 163 175;    /* #9CA3AF dim slate */
+  --bone: 17 24 39;               /* primary text — same as --fiat */
+  --cta-on-accent: 255 255 255;   /* white on amber CTAs for max contrast */
 }
 
 * {
@@ -36,10 +94,20 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Inter", system-ui, sans-serif;
-  color: #E6E7EA;
-  background: #0B0C0E;
+  color: rgb(var(--bone));
+  background: rgb(var(--gunmetal-900));
   min-height: 100vh;
   overflow: hidden;
+}
+
+/* Light-theme: pale aluminum base with subtle blueprint grid overlay. */
+[data-theme="light"] body,
+[data-theme="light"] .extension-shell {
+  background-color: rgb(var(--gunmetal-800));
+  background-image:
+    linear-gradient(rgb(var(--gunmetal-900) / 0.45) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--gunmetal-900) / 0.45) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
 #app {
@@ -96,11 +164,95 @@ body {
   opacity: 0.6;
 }
 
-/* === Extension shell (Chrome side panel) === */
+/* === Extension shell (Chrome side panel / Firefox popup-sidebar) === */
 .extension-shell {
-  background: #121315;
+  background: rgb(var(--gunmetal-800));
   width: 100%;
   height: 100vh;
+}
+
+/* === Light-theme component overrides === */
+/* The dark-theme components apply background-tinted utility classes
+ * (bg-rust/15, bg-indigo-forge/15, etc.) that are eye-friendly on dark
+ * cards but become muddy washes on a #F4F6F8 surface. For the few
+ * highest-traffic patterns we promote to solid fills + white text.
+ */
+[data-theme="light"] .forge-card {
+  background: rgb(var(--gunmetal-600));
+  border-color: rgb(var(--gunmetal-400));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 1px 0 rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(15, 23, 42, 0.08);
+}
+[data-theme="light"] .forge-card::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(180, 83, 9, 0.25),
+    transparent
+  );
+}
+[data-theme="light"] .forge-input {
+  background: rgb(var(--gunmetal-700));
+  color: rgb(var(--fiat));
+  border-color: rgb(var(--gunmetal-400));
+}
+[data-theme="light"] .forge-input::placeholder {
+  color: rgb(var(--fiat-dim) / 0.75);
+}
+/* Primary CTA on light theme → solid deep amber + white text */
+[data-theme="light"] .forge-btn-primary {
+  background-color: rgb(var(--accent));
+  color: rgb(var(--cta-on-accent));
+  border-color: rgb(var(--accent));
+}
+[data-theme="light"] .forge-btn-primary:hover {
+  background-color: rgb(var(--accent-bright));
+  border-color: rgb(var(--accent-bright));
+}
+/* Secondary CTAs (Disconnect / Max / Reject) → outlined deep amber */
+[data-theme="light"] .forge-btn-rust {
+  background: transparent;
+  border-color: rgb(var(--accent));
+  color: rgb(var(--accent));
+}
+[data-theme="light"] .forge-btn-rust:hover {
+  background-color: rgb(var(--accent) / 0.12);
+}
+[data-theme="light"] .forge-btn {
+  background: rgb(var(--gunmetal-700));
+  border-color: rgb(var(--gunmetal-400));
+  color: rgb(var(--fiat));
+}
+[data-theme="light"] .forge-btn:hover {
+  background: rgb(var(--gunmetal-500));
+}
+[data-theme="light"] .forge-btn-cyan {
+  background: transparent;
+  border-color: rgb(var(--highlight));
+  color: rgb(var(--highlight));
+}
+[data-theme="light"] .forge-btn-cyan:hover {
+  background-color: rgb(var(--highlight) / 0.1);
+}
+[data-theme="light"] .forge-label {
+  color: rgb(var(--fiat-dim));
+}
+[data-theme="light"] .metal-divider {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(var(--gunmetal-400)),
+    transparent
+  );
+}
+/* Tx-row received amounts pop with a dark-green vivid contrast. */
+[data-theme="light"] [data-tx-direction="in"] {
+  color: #047857; /* emerald-700 — vivid, legible on aluminum */
+}
+[data-theme="light"] [data-tx-direction="out"] {
+  color: rgb(var(--fiat)); /* solid charcoal for sent rows */
 }
 
 /* Scrollbar */
@@ -108,14 +260,14 @@ body {
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0C0E;
+  background: rgb(var(--gunmetal-900));
 }
 ::-webkit-scrollbar-thumb {
-  background: #2D3139;
+  background: rgb(var(--gunmetal-400));
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3A3F49;
+  background: rgb(var(--gunmetal-300));
 }
 
 /* Selection */

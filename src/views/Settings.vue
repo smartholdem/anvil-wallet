@@ -68,9 +68,15 @@ function pickNode(node: string) {
   pushToast(`Switched to ${node}`, "success");
 }
 
-function pickTheme(t: "rust" | "cyan") {
+function pickTheme(t: "rust" | "cyan" | "light") {
   settings.setTheme(t);
-  pushToast(t === "rust" ? "Rust Classic engaged" : "Cyan Steel engaged", "success");
+  const label =
+    t === "rust"
+      ? "Rust Classic engaged"
+      : t === "cyan"
+      ? "Cyan Steel engaged"
+      : "Industrial Light engaged";
+  pushToast(label, "success");
 }
 
 // Language picker removed from this view — handled by TopBar's
@@ -266,7 +272,7 @@ onMounted(() => {
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-3 gap-2" data-testid="theme-picker">
             <button
               type="button"
               @click="pickTheme('rust')"
@@ -283,7 +289,7 @@ onMounted(() => {
                   class="inline-block w-2 h-2 rounded-full bg-[#E25822]"
                   :class="{ 'animate-pulse-glow': settings.theme === 'rust' }"
                 />
-                Rust Classic
+                Rust
               </span>
             </button>
             <button
@@ -302,10 +308,41 @@ onMounted(() => {
                   class="inline-block w-2 h-2 rounded-full bg-[#4F46E5]"
                   :class="{ 'animate-pulse-glow': settings.theme === 'cyan' }"
                 />
-                Cyan Steel
+                Cyan
+              </span>
+            </button>
+            <button
+              type="button"
+              @click="pickTheme('light')"
+              :data-testid="'theme-light-btn'"
+              class="relative h-12 rounded-md border-2 font-semibold text-[11px] uppercase tracking-[0.18em] transition-all"
+              :class="
+                settings.theme === 'light'
+                  ? 'border-[#B45309] bg-[#B45309]/15 text-[#D97706] shadow-[0_0_0_1px_rgba(180,83,9,0.5),0_0_18px_-2px_rgba(180,83,9,0.55)]'
+                  : 'border-gunmetal-400 bg-gunmetal-700 text-fiat hover:border-gunmetal-300'
+              "
+            >
+              <span class="flex items-center justify-center gap-1.5">
+                <span
+                  class="inline-block w-2 h-2 rounded-full bg-[#B45309]"
+                  :class="{ 'animate-pulse-glow': settings.theme === 'light' }"
+                />
+                Light
               </span>
             </button>
           </div>
+          <p
+            class="text-[10px] text-fiatDim leading-relaxed mt-2"
+            data-testid="theme-active-desc"
+          >
+            {{
+              settings.theme === 'rust'
+                ? t('set.themeRustDesc')
+                : settings.theme === 'cyan'
+                ? t('set.themeCyanDesc')
+                : t('set.themeLightDesc')
+            }}
+          </p>
         </div>
       </section>
 

@@ -29,7 +29,7 @@ export const useSettingsStore = defineStore("appSettings", {
      */
     lockTimeoutSec: 300,
     autoLockEnabled: true,
-    theme: "rust" as "rust" | "cyan",
+    theme: "rust" as "rust" | "cyan" | "light",
     locale: "en" as "en" | "ru" | "zh" | "es",
     pinHash: "" as string, // SHA-384(pin)
     nodes: [...DEFAULT_NODES],
@@ -52,7 +52,7 @@ export const useSettingsStore = defineStore("appSettings", {
     setActiveNode(node: string) {
       if (this.nodes.includes(node)) this.activeNode = node;
     },
-    setTheme(theme: "rust" | "cyan") {
+    setTheme(theme: "rust" | "cyan" | "light") {
       this.theme = theme;
       if (typeof document !== "undefined") {
         document.documentElement.setAttribute("data-theme", theme);

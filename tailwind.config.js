@@ -5,13 +5,13 @@ export default {
     extend: {
       colors: {
         gunmetal: {
-          900: "#0B0C0E",
-          800: "#121315",
-          700: "#16181B",
-          600: "#1A1C20",
-          500: "#22252B",
-          400: "#2D3139",
-          300: "#3A3F49",
+          900: "rgb(var(--gunmetal-900) / <alpha-value>)",
+          800: "rgb(var(--gunmetal-800) / <alpha-value>)",
+          700: "rgb(var(--gunmetal-700) / <alpha-value>)",
+          600: "rgb(var(--gunmetal-600) / <alpha-value>)",
+          500: "rgb(var(--gunmetal-500) / <alpha-value>)",
+          400: "rgb(var(--gunmetal-400) / <alpha-value>)",
+          300: "rgb(var(--gunmetal-300) / <alpha-value>)",
         },
         // === Theme-bound semantic colors (driven by CSS variables on <body data-theme=...>) ===
         // `indigo-forge` / `cyan-volt` are kept as historical aliases so the entire
@@ -33,7 +33,7 @@ export default {
         // High-contrast fiat/balance text — much brighter than gunmetal-300.
         fiat: "rgb(var(--fiat) / <alpha-value>)",
         fiatDim: "rgb(var(--fiat-dim) / <alpha-value>)",
-        bone: "#E6E7EA",
+        bone: "rgb(var(--bone) / <alpha-value>)",
       },
       fontFamily: {
         mono: ["JetBrains Mono", "ui-monospace", "monospace"],
