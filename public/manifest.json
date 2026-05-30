@@ -1,0 +1,27 @@
+{
+  "name": "SmartHoldem Wallet - ANVIL Edition",
+  "short_name": "ANVIL",
+  "description": "An industrial-grade crypto wallet for SmartHoldem (STH). Built for games, payments, and pure on-chain sovereignty.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#121315",
+  "theme_color": "#E25822",
+  "orientation": "portrait-primary",
+  "categories": ["finance", "productivity", "utilities"],
+  "lang": "en",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

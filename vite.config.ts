@@ -3,11 +3,83 @@ import vue from "@vitejs/plugin-vue";
 import path from "path";
 import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 import rollupNodePolyFill from "rollup-plugin-polyfill-node";
+import { VitePWA } from "vite-plugin-pwa";
 
-// Dev/preview build (served on port 3000 via supervisor `yarn start`)
-// Renders the extension UI inside a centered side-panel mockup frame.
-export default defineConfig({
-  plugins: [vue()],
+// Dev/preview build (port 3000 via supervisor `yarn start`) AND production
+// PWA target (`yarn build:pwa`). The same config drives both because the
+// PWA build is essentially "dev preview but minified + service worker".
+//
+// Build modes:
+//   `yarn start`          → dev server, no PWA service worker
+//   `yarn build`          → static SPA, PWA plugin disabled by default
+//   `yarn build:pwa`      → static SPA + service worker registration + manifest
+//                            (mode === "pwa" enables VitePWA below)
+//
+// Chrome/Firefox extension targets use the *separate* vite.config.extension.ts.
+export default defineConfig(({ mode }) => {
+  const IS_PWA = mode === "pwa";
+
+  return {
+  plugins: [
+    vue(),
+    // VitePWA only injects its service-worker + manifest pipeline when we're
+    // explicitly building the PWA target. Otherwise we'd ship a SW into the
+    // dev preview (and into any unrelated `yarn build`) that would intercept
+    // fetches and confuse `yarn build:extension` packagers.
+    ...(IS_PWA
+      ? [
+          VitePWA({
+            registerType: "autoUpdate",
+            injectRegister: "auto",
+            // Use the hand-written manifest.json we ship in /public so we
+            // can control all 12 fields (categories, scope, orientation…).
+            // VitePWA would otherwise generate a minimal one from this block.
+            manifest: false,
+            includeAssets: [
+              "favicon.svg",
+              "manifest.json",
+              "icons/icon-192.png",
+              "icons/icon-512.png",
+              "icons/icon-128.png",
+              "icons/icon-48.png",
+              "icons/icon-32.png",
+              "icons/icon-16.png",
+            ],
+            workbox: {
+              // 5 MB cap — covers our crypto-vendor chunk (~3.3 MB).
+              maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+              globPatterns: ["**/*.{js,css,html,svg,png,woff2}"],
+              navigateFallback: "/index.html",
+              // Don't cache external API calls. Wallet always needs the
+              // freshest balance / tx / exchange rate data.
+              navigateFallbackDenylist: [
+                /^\/api\//,
+                /^https?:\/\/(node|exchange|explorer)\.smartholdem\.io/,
+              ],
+              runtimeCaching: [
+                {
+                  // Google Fonts CSS — stale-while-revalidate for fast paint.
+                  urlPattern: /^https:\/\/fonts\.googleapis\.com/,
+                  handler: "StaleWhileRevalidate",
+                  options: { cacheName: "anvil-fonts-css" },
+                },
+                {
+                  // Google Fonts files (woff2) — long-cache them, they're
+                  // hash-revisioned by Google.
+                  urlPattern: /^https:\/\/fonts\.gstatic\.com/,
+                  handler: "CacheFirst",
+                  options: {
+                    cacheName: "anvil-fonts-bin",
+                    expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 },
+                  },
+                },
+              ],
+            },
+            devOptions: { enabled: false },
+          }),
+        ]
+      : []),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
@@ -72,4 +144,5 @@ export default defineConfig({
       plugins: [rollupNodePolyFill()],
     },
   },
+};
 });
