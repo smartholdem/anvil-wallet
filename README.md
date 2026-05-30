@@ -5,6 +5,8 @@
 
 ---
 
+<img width="1852" height="901" alt="image" src="https://github.com/user-attachments/assets/9a2215a0-73c6-480c-8052-71506b8ea0a6" />
+
 ## 1. Features
 
 ### 1.1. Account Management (Vault)
