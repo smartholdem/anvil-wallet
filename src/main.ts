@@ -18,7 +18,7 @@ app.use(router);
 app.mount("#app");
 
 /**
- * Dismiss the inline ANVIL boot splash (defined in index.html / popup.html).
+ * Dismiss the inline PRIME boot splash (defined in index.html / popup.html).
  *
  * Why `requestAnimationFrame` instead of dismissing immediately after
  * `mount()`: Vue's `mount()` synchronously creates the component tree but
@@ -29,7 +29,7 @@ app.mount("#app");
  */
 function dismissBootSplash() {
   if (typeof document === "undefined") return;
-  const el = document.getElementById("anvil-boot-container");
+  const el = document.getElementById("prime-boot-container");
   if (!el) return;
   el.style.transition = "opacity 0.2s ease-out";
   el.style.opacity = "0";

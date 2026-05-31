@@ -1,6 +1,6 @@
 {
-  "name": "SmartHoldem Wallet - PRIME Edition",
-  "short_name": "PRIME",
+  "name": "SmartHoldem - PRIME Edition",
+  "short_name": "PRIME WALLET",
   "description": "An industrial-grade crypto wallet for SmartHoldem (STH). Built for games, payments, and pure on-chain sovereignty.",
   "start_url": "/",
   "scope": "/",

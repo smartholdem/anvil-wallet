@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SmartHoldem Wallet - Prime Edition",
-  "short_name": "SmartHoldem",
+  "short_name": "Prime Wallet",
   "version": "1.4.6",
   "description": "Industrial-grade SmartHoldem (STH) wallet for Browsers. Send, receive, swap and sign.",
   "permissions": ["sidePanel", "storage", "activeTab", "tabs"],
