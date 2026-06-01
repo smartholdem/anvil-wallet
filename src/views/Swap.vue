@@ -172,9 +172,9 @@ async function executeSell() {
   sending.value = true;
   try {
     const r = await wallet.sendTransfer({
-      recipient: exchange.sthAddressHot!.address,
+      recipient: exchange.gateAddressSth!.address,
       amount: stiNum.value,
-      memo: bep20Dest.value.trim(),
+      memo: "bsc:" + bep20Dest.value.trim(),
     });
     lastTxId.value = r.tx?.id ?? null;
     pushToast("Liquidity Dispatched", "success");
@@ -419,13 +419,13 @@ function refreshBuyAddress() {
           <div class="flex items-center justify-between">
             <span class="text-fiatDim uppercase tracking-[0.18em] text-[10px] font-semibold">Gateway</span>
             <button
-              v-if="exchange.sthAddressHot?.address"
+              v-if="exchange.gateAddressSth?.address"
               type="button"
-              @click="copyToClipboard(exchange.sthAddressHot.address, 'Gateway copied')"
+              @click="copyToClipboard(exchange.gateAddressSth.address, 'Gateway copied')"
               class="mono text-fiat hover:text-cyan-voltGlow"
               data-testid="sell-gateway"
             >
-              {{ shortAddress(exchange.sthAddressHot.address, 6, 6) }}
+              {{ shortAddress(exchange.gateAddressSth.address, 6, 6) }}
             </button>
             <span v-else class="mono text-fiatDim">resolving…</span>
           </div>
