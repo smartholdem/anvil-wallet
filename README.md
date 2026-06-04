@@ -484,7 +484,7 @@ When running the application suite under local development configurations (`yarn
 
 ```js
 // Instantly mount the AuthorizeConnect interface view mockup
-window.__sthDevConnect({ origin: "https://poker.smartholdem.io" });
+window.__sthDevConnect({ origin: "https://playpoker.pro" });
 
 // Instantly mount the AuthorizeTx interface layout under SIGN ONLY settings
 window.__sthDevSignTx({
@@ -506,7 +506,7 @@ window.__sthDevSendTx({
 window.__sthDevDeepLink({
   direction: "USDT_TO_STH",
   amount: 42,
-  origin: "https://poker.smartholdem.io"
+  origin: "https://playpoker.pro"
 });
 
 ```
