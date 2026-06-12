@@ -18,7 +18,7 @@ app.use(router);
 app.mount("#app");
 
 /**
- * Dismiss the inline PRIME boot splash (defined in index.html / popup.html).
+ * Dismiss the inline Core Wallet boot splash (defined in index.html / popup.html).
  *
  * Why `requestAnimationFrame` instead of dismissing immediately after
  * `mount()`: Vue's `mount()` synchronously creates the component tree but

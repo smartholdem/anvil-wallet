@@ -1,5 +1,5 @@
 /**
- * Multi-language dictionary for SmartHoldem Prime.
+ * Multi-language dictionary for SmartHoldem Core Wallet.
  *
  * Add new locales by extending the `Locale` union and providing a full
  * dictionary keyed identically to `en`. Missing keys at runtime fall back
@@ -164,9 +164,9 @@ const en: Dict = {
   "set.themeCyan": "Cyan Steel",
   "set.themeLight": "Industrial Light",
   "set.themeRustDesc": "SmartHoldem native - burned amber on gunmetal.",
-  "set.themeCyanDesc": "Legacy Prime - anodized indigo + volt cyan.",
+  "set.themeCyanDesc": "Legacy Core - anodized indigo + volt cyan.",
   "set.themeLightDesc":
-    "Raw machined aluminum - tactical light Prime with deep amber accents.",
+    "Raw machined aluminum - tactical light Core with deep amber accents.",
   "set.language": "Internationalization · Language",
   "set.languageDesc": "Switch interface language instantly. More locales coming.",
   "set.security": "Security",
@@ -366,7 +366,7 @@ const ru: Dict = {
   "set.themeRustDesc":
     "Нативный SmartHoldem - жжёная амбра на оружейной стали.",
   "set.themeCyanDesc":
-    "Legacy Prime - анодированный индиго и вольтовый циан.",
+    "Legacy Core - анодированный индиго и вольтовый циан.",
   "set.themeLightDesc":
     "Необработанный алюминий - тактический светлый дизайн с глубокой амброй.",
   "set.language": "Язык интерфейса",
@@ -802,7 +802,7 @@ const es: Dict = {
   "auth.confirm": "Confirmar con PIN",
   "auth.signed": "Transacción autorizada",
   "auth.rejected": "Transacción rechazada",
-  "auth.unlock": "Primero desbloquee la billetera",
+  "auth.unlock": "Core desbloquee la billetera",
   "auth.pinPrompt": "Ingrese su PIN para firmar.",
   "auth.broadcastTitle": "AUTORIZAR · FIRMAR Y TRANSMITIR",
   "auth.broadcastCta": "Confirmar, Firmar y Transmitir",
