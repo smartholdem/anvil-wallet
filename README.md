@@ -659,6 +659,7 @@ End-to-end integration verification with a fully active, real-world native injec
 - Framework: Vue 3
 - Bundler: Vite / Rollup
 - Environment: Node.js (v22/v24+)
+- Commandline: PowerShell or Linux terminal
 
 ### Step-by-Step Instructions to Reproduce the Build:
 1. Clone the repository https://github.com/smartholdem/Prime-Wallet or extract the provided source code archive.
